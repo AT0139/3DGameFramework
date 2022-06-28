@@ -1,29 +1,29 @@
 #include "main.h"
 #include "renderer.h"
 #include "model.h"
+#include "ResourceManager.h"
 #include "Stair.h"
 
 
 void Stair::Init()
 {
 	//モデル読み込み
-	m_model = new Model();
-	m_model->Load((char*)"asset\\model\\upstair.obj");
+	m_model = ResourceManager::GetInstance()->GetModelData("asset\\model\\upstair.obj");
 
 
 	Renderer::GetInstance()->CreateVertexShader(&m_vertexShader, &m_vertexLayout, "unlitTextureVS.cso");
 
 	Renderer::GetInstance()->CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
 
-	m_position = D3DXVECTOR3(3.0f, 1.0f, 0.0f);
-	m_rotation = D3DXVECTOR3(D3DX_PI + 1.0f, 0.0f, 0.0f);
-	m_scale = D3DXVECTOR3(0.3f, 0.3f, 0.3f);
+	m_transform.position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_transform.rotation = D3DXVECTOR3(0.0f, D3DX_PI + 1.0f, 0.0f);
+	m_transform.scale = D3DXVECTOR3(0.3f, 0.3f, 0.3f);
 }
 
 void Stair::Uninit()
 {
-	m_model->Unload();
-	delete m_model;
+	//m_model->Unload();
+	//delete m_model;
 
 	m_vertexLayout->Release();
 	m_vertexShader->Release();
@@ -46,9 +46,9 @@ void Stair::Draw()
 
 	////ワールドマトリクス設定
 	D3DXMATRIX world, scale, rot, trans;
-	D3DXMatrixScaling(&scale, m_scale.x, m_scale.y, m_scale.z);
-	D3DXMatrixRotationYawPitchRoll(&rot, m_rotation.x, m_rotation.y, m_rotation.z);
-	D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
+	D3DXMatrixScaling(&scale, m_transform.scale.x, m_transform.scale.y, m_transform.scale.z);
+	D3DXMatrixRotationYawPitchRoll(&rot, m_transform.rotation.y, m_transform.rotation.x, m_transform.rotation.z);
+	D3DXMatrixTranslation(&trans, m_transform.position.x, m_transform.position.y, m_transform.position.z);
 	world = scale * rot * trans;
 	Renderer::GetInstance()->SetWorldMatrix(&world);
 

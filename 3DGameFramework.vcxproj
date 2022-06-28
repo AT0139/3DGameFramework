@@ -152,41 +152,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Bullet.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="Field.cpp" />
-    <ClCompile Include="input.cpp" />
-    <ClCompile Include="Item.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="manager.cpp" />
-    <ClCompile Include="model.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Polygon2D.cpp" />
-    <ClCompile Include="renderer.cpp" />
-    <ClCompile Include="SkyDome.cpp" />
-    <ClCompile Include="Stair.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Bullet.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="Component.h" />
-    <ClInclude Include="Enemy.h" />
-    <ClInclude Include="Field.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="input.h" />
-    <ClInclude Include="Item.h" />
-    <ClInclude Include="main.h" />
-    <ClInclude Include="manager.h" />
-    <ClInclude Include="model.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Polygon2D.h" />
-    <ClInclude Include="renderer.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="SkyDome.h" />
-    <ClInclude Include="Stair.h" />
-  </ItemGroup>
-  <ItemGroup>
     <FxCompile Include="common.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -233,6 +198,58 @@
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).cso</ObjectFileOutput>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BulletComponent.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="DrawBillBoard.h" />
+    <ClInclude Include="DrawModelComponent.h" />
+    <ClInclude Include="DrawPolygonComponent.h" />
+    <ClInclude Include="EnemyComponent.h" />
+    <ClInclude Include="ExplosionComponent.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="input.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="main.h" />
+    <ClInclude Include="manager.h" />
+    <ClInclude Include="model.h" />
+    <ClInclude Include="PlayerComponent.h" />
+    <ClInclude Include="Polygon2D.h" />
+    <ClInclude Include="renderer.h" />
+    <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="Result.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="ShotBullet.h" />
+    <ClInclude Include="SkyDome.h" />
+    <ClInclude Include="Stair.h" />
+    <ClInclude Include="Title.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BulletComponent.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="DrawBillBoard.cpp" />
+    <ClCompile Include="DrawModelComponent.cpp" />
+    <ClCompile Include="DrawPolygonComponent.cpp" />
+    <ClCompile Include="EnemyComponent.cpp" />
+    <ClCompile Include="ExplosionComponent.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="input.cpp" />
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="manager.cpp" />
+    <ClCompile Include="model.cpp" />
+    <ClCompile Include="PlayerComponent.cpp" />
+    <ClCompile Include="Polygon2D.cpp" />
+    <ClCompile Include="renderer.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="Result.cpp" />
+    <ClCompile Include="ShotBullet.cpp" />
+    <ClCompile Include="SkyDome.cpp" />
+    <ClCompile Include="Stair.cpp" />
+    <ClCompile Include="Title.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

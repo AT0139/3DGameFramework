@@ -45,25 +45,28 @@ private:
 
 	static Renderer* m_singleton;
 
-	static D3D_FEATURE_LEVEL       m_FeatureLevel;
+	D3D_FEATURE_LEVEL       m_FeatureLevel = D3D_FEATURE_LEVEL_11_0;
 
-	static ID3D11Device*           m_Device;
-	static ID3D11DeviceContext*    m_DeviceContext;
-	static IDXGISwapChain*         m_SwapChain;
-	static ID3D11RenderTargetView* m_RenderTargetView;
-	static ID3D11DepthStencilView* m_DepthStencilView;
+	ID3D11Device*           m_Device;
+	ID3D11DeviceContext*    m_DeviceContext;
+	IDXGISwapChain*         m_SwapChain;
+	ID3D11RenderTargetView* m_RenderTargetView;
+	ID3D11DepthStencilView* m_DepthStencilView;
 
-	static ID3D11Buffer*			m_WorldBuffer;
-	static ID3D11Buffer*			m_ViewBuffer;
-	static ID3D11Buffer*			m_ProjectionBuffer;
-	static ID3D11Buffer*			m_MaterialBuffer;
-	static ID3D11Buffer*			m_LightBuffer;
-
-
-	static ID3D11DepthStencilState* m_DepthStateEnable;
-	static ID3D11DepthStencilState* m_DepthStateDisable;
+	ID3D11Buffer*			m_WorldBuffer;
+	ID3D11Buffer*			m_ViewBuffer;
+	ID3D11Buffer*			m_ProjectionBuffer;
+	ID3D11Buffer*			m_MaterialBuffer;
+	ID3D11Buffer*			m_LightBuffer;
 
 
+	ID3D11DepthStencilState* m_DepthStateEnable;
+	ID3D11DepthStencilState* m_DepthStateDisable;
+
+	ID3D11BlendState* m_blendState = NULL;
+	ID3D11BlendState* m_blendStateAtC = NULL;
+
+	float blendFactor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
 
 
 public:
@@ -82,6 +85,7 @@ public:
 	 void SetProjectionMatrix(D3DXMATRIX* ProjectionMatrix);
 	 void SetMaterial(MATERIAL Material);
 	 void SetLight(LIGHT Light);
+	 void SetAlphaToCoverageEnable(bool Enable);
 
 	 ID3D11Device* GetDevice( void ){ return m_Device; }
 	 ID3D11DeviceContext* GetDeviceContext( void ){ return m_DeviceContext; }

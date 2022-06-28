@@ -5,25 +5,6 @@
 
 Renderer* Renderer::m_singleton = nullptr;
 
-D3D_FEATURE_LEVEL       Renderer::m_FeatureLevel = D3D_FEATURE_LEVEL_11_0;
-
-ID3D11Device*           Renderer::m_Device = NULL;
-ID3D11DeviceContext*    Renderer::m_DeviceContext = NULL;
-IDXGISwapChain*         Renderer::m_SwapChain = NULL;
-ID3D11RenderTargetView* Renderer::m_RenderTargetView = NULL;
-ID3D11DepthStencilView* Renderer::m_DepthStencilView = NULL;
-
-ID3D11Buffer*			Renderer::m_WorldBuffer = NULL;
-ID3D11Buffer*			Renderer::m_ViewBuffer = NULL;
-ID3D11Buffer*			Renderer::m_ProjectionBuffer = NULL;
-ID3D11Buffer*			Renderer::m_MaterialBuffer = NULL;
-ID3D11Buffer*			Renderer::m_LightBuffer = NULL;
-
-
-ID3D11DepthStencilState* Renderer::m_DepthStateEnable = NULL;
-ID3D11DepthStencilState* Renderer::m_DepthStateDisable = NULL;
-
-
 Renderer::~Renderer()
 {
 	delete m_singleton;
@@ -156,10 +137,10 @@ void Renderer::Init()
 	blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
 	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
-	float blendFactor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
-	ID3D11BlendState* blendState = NULL;
-	m_Device->CreateBlendState( &blendDesc, &blendState );
-	m_DeviceContext->OMSetBlendState( blendState, blendFactor, 0xffffffff );
+	m_Device->CreateBlendState( &blendDesc, &m_blendState );
+	blendDesc.AlphaToCoverageEnable = TRUE;
+	m_Device->CreateBlendState(&blendDesc, &m_blendStateAtC);
+	m_DeviceContext->OMSetBlendState(m_blendStateAtC, blendFactor, 0xffffffff );
 
 
 
@@ -353,6 +334,14 @@ void Renderer::SetMaterial( MATERIAL Material )
 void Renderer::SetLight( LIGHT Light )
 {
 	m_DeviceContext->UpdateSubresource(m_LightBuffer, 0, NULL, &Light, 0, 0);
+}
+
+void Renderer::SetAlphaToCoverageEnable(bool Enable)
+{
+	if (Enable)
+		m_DeviceContext->OMSetBlendState(m_blendStateAtC, blendFactor, 0xffffffff);
+	else 
+		m_DeviceContext->OMSetBlendState(m_blendState, blendFactor, 0xffffffff);
 }
 
 

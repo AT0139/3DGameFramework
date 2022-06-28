@@ -14,15 +14,15 @@ void Item::Init()
 
 	Renderer::GetInstance()->CreatePixelShader(&m_pixelShader, "unlitTexturePS.cso");
 
-	m_position = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	m_rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	m_transform.position = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	m_transform.rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_transform.scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 }
 
 void Item::Uninit()
 {
-	m_model->Unload();
-	delete m_model;
+	//m_model->Unload();
+	//delete m_model;
 
 	m_vertexLayout->Release();
 	m_vertexShader->Release();
@@ -44,9 +44,9 @@ void Item::Draw()
 
 	//ワールドマトリクス設定
 	D3DXMATRIX world, scale, rot, trans;
-	D3DXMatrixScaling(&scale, m_scale.x, m_scale.y, m_scale.z);
-	D3DXMatrixRotationYawPitchRoll(&rot, m_rotation.x, m_rotation.y, m_rotation.z);
-	D3DXMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
+	D3DXMatrixScaling(&scale, m_transform.scale.x, m_transform.scale.y, m_transform.scale.z);
+	D3DXMatrixRotationYawPitchRoll(&rot, m_transform.rotation.y, m_transform.rotation.x, m_transform.rotation.z);
+	D3DXMatrixTranslation(&trans, m_transform.position.x, m_transform.position.y, m_transform.position.z);
 	world = scale * rot * trans;
 	Renderer::GetInstance()->SetWorldMatrix(&world);
 

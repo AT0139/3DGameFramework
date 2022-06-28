@@ -3,15 +3,8 @@
 #include <list>
 #include <vector>
 #include <typeinfo>
-#include "Polygon2D.h"
-#include "Field.h"
-#include "Camera.h"
-#include "model.h"
-#include "Player.h"
-#include "Stair.h"
-#include "Bullet.h"
-#include "Enemy.h"
-#include "SkyDome.h"
+#include "main.h"
+#include "GameObject.h"
 
 class Scene
 {
@@ -27,27 +20,9 @@ public:
 		LAYER_MAX
 	};
 
-	void Init()
-	{
-		Bullet::Load();
-		Enemy::Load();
+	virtual void Init() = 0;	//純粋仮想関数
 
-		//カメラ
-		AddGameObject<Camera>(CAMERA);
-
-		//3Dオブジェクト
-		//AddGameObject<SkyDome>();
-		AddGameObject<Field>(OBJECT);
-		AddGameObject<Stair>(OBJECT);
-		AddGameObject<Player>(OBJECT);
-		AddGameObject<Enemy>(OBJECT)->SetPosition(D3DXVECTOR3(-2.0f, 1.0f, 3.0f));
-		AddGameObject<Enemy>(OBJECT)->SetPosition(D3DXVECTOR3(0.0f, 1.0f, 3.0f));
-		AddGameObject<Enemy>(OBJECT)->SetPosition(D3DXVECTOR3(2.0f, 1.0f, 3.0f));
-
-		//2Dオブジェクト
-		AddGameObject<Polygon2D>(UI);
-	}
-	void Uninit()
+	virtual void Uninit()
 	{
 		for (int i = 0; i < LAYER_MAX; i++)
 		{
@@ -58,12 +33,9 @@ public:
 			}
 			m_gameObjects[i].clear();
 		}
-		Bullet::Unload();
-		Enemy::Unload();
 	}
-	void Update()
+	virtual void Update()
 	{
-
 		for (int i = 0; i < LAYER_MAX; i++)
 		{
 			for (GameObject* object : m_gameObjects[i])
@@ -83,6 +55,14 @@ public:
 				object->Draw();
 			}
 		}
+	}
+
+	//コンポーネント指向
+	GameObject* AddGameObject(GameObject* gameObject, int layer)
+	{
+		m_gameObjects[layer].push_back(gameObject);
+
+		return gameObject;
 	}
 
 	template <typename T>
@@ -118,6 +98,35 @@ public:
 			{
 				objects.push_back((T*)object);
 			}
+		}
+		return objects;
+	}
+
+	//コンポーネントを持っているゲームオブジェクト検索
+	template <typename T>
+	GameObject* GetComponentObject(int layer)
+	{
+		for (GameObject* object : m_gameObjects[layer])	//型を調べる(RTTI動的型情報)
+		{
+			if (object->GetComponent<T>() == nullptr)
+				continue;
+			else
+				return object;
+		}
+		return nullptr;
+	}
+
+	//コンポーネントを持っているゲームオブジェクト検索
+	template <typename T>
+	std::vector<GameObject*> GetComponentObjects(int layer)
+	{
+		std::vector<GameObject*> objects;
+		for (GameObject* object : m_gameObjects[layer])	//型を調べる(RTTI動的型情報)
+		{
+			if (object->GetComponent<T>() == nullptr)
+				continue;
+			else
+				objects.push_back(object);
 		}
 		return objects;
 	}
